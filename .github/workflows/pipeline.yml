@@ -215,11 +215,11 @@ jobs:
     
       if: github.ref == 'refs/heads/main'
       
-  environment:
+      environment:
         name: prod
-        needs: build
-        steps:
-  name: Deploy
-  shell: bash
-    run: | 
-    echo "Deploy PROD"
+      needs: build
+      steps:
+      - name: Deploy
+        shell: bash
+        run: |
+          echo "Deploy PROD"
