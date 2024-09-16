@@ -126,7 +126,7 @@ code-analisys:
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.qualitygate.wait=true -Dsonar.projectKey=devopsfiap_devopsimpacta
 
 
-  build:
+build:
     runs-on: ubuntu-latest
     needs: code-analisys
     steps:
