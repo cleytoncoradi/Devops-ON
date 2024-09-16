@@ -219,7 +219,7 @@ jobs:
         name: prod
         needs: build
         steps:
-  - name: Deploy
-        shell: bash
-        run: |
+  name: Deploy
+  shell: bash
+      run: |
           echo "Deploy PROD" 
