@@ -86,13 +86,13 @@ jobs:
           path: ~/.m2
       key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
       restore-keys: ${{ runner.os }}-m2
-    - name: Build and analyze
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar - Dsonar.projectKey= cleytoncoradi
+      name: Build and analyze
+      env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar - Dsonar.projectKey= cleytoncoradi
 
-code-analisys:
+  code-analisys:
     runs-on: ubuntu-latest
     needs: unit-test
     
@@ -126,7 +126,7 @@ code-analisys:
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.qualitygate.wait=true -Dsonar.projectKey=devopsfiap_devopsimpacta
 
 
-build:
+  build:
     runs-on: ubuntu-latest
     needs: code-analisys
     steps:
@@ -137,7 +137,7 @@ build:
     - name: Package
       run: mvn package  
    
-deploy-STG:
+  deploy-STG:
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -150,7 +150,7 @@ deploy-STG:
         run: |
           echo "Deploy STG"
           
-Smoketest:
+  Smoketest:
     runs-on: ubuntu-latest
     needs: deploy-STG
     
@@ -162,7 +162,7 @@ Smoketest:
         run: |
           sh 'src/main/scripts/smoketest.sh'
           
-testeIntegrados:
+  testeIntegrados:
     runs-on: ubuntu-latest
     needs: Smoketest
     
@@ -174,7 +174,7 @@ testeIntegrados:
         run: |
           sh 'src/main/scripts/testeIntegrado.sh'
   
-deploy-Pre:
+  deploy-Pre:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/release'
     environment:
@@ -186,7 +186,7 @@ deploy-Pre:
         run: |
           echo "Deploy PRE"
   
-    SmoketestPre:
+  SmoketestPre:
       runs-on: ubuntu-latest
       needs: deploy-Pre
     
@@ -198,7 +198,7 @@ deploy-Pre:
         run: |
           sh 'src/main/scripts/smoketest.sh'          
           
-    testeFuncionais:
+  testeFuncionais:
       runs-on: ubuntu-latest
       needs: SmoketestPre
     
@@ -210,13 +210,13 @@ deploy-Pre:
         run: |
           sh 'src/main/scripts/testesFuncionais.sh'  
           
-    deploy-Prod:
+  deploy-Prod:
       runs-on: ubuntu-latest
     
       if: github.ref == 'refs/heads/main'
-      environment:
-      name: prod
-      needs: build
+        environment:
+        name: prod
+        needs: build
       steps:
       - name: Deploy 
         shell: bash
