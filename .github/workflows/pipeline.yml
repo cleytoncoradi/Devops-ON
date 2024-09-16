@@ -42,9 +42,8 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       
-unit-test:
+  unit-test:
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v4
       with:
@@ -75,14 +74,14 @@ unit-test:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
-    - name: Cache SonarCloud packages
+      - name: Cache SonarCloud packages
       uses: actions/cache@v1
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
-    - name: Cache Maven packages
-      uses: actions/cache@v1
+      - name: Cache Maven packages
+       uses: actions/cache@v1
       with:
           path: ~/.m2
       key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
